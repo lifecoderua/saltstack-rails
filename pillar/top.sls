@@ -1,0 +1,3 @@
+base:
+  '*':
+    - rails_data
