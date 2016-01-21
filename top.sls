@@ -1,5 +1,6 @@
 base:
   '*':
+    - user
     - swap
     - webserver
     - misc

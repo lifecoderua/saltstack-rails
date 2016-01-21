@@ -60,7 +60,7 @@ nginx:
 
 /srv/www/onewebstory.com/shared/config/secrets.yml:
   file.managed:
-    - source: salt://files/srv/onewebstory.secrets.yml
+    - source: salt://files/srv/exampleone.secrets.yml
     - user: deploy
     - group: deploy
     - mode: 644
