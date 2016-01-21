@@ -1,2 +1,2 @@
 rails_data:
-  user: dobby
+  user: deploy
