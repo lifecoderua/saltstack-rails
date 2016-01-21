@@ -27,7 +27,7 @@ curl -L https://bootstrap.saltstack.com -o install_salt.sh
 sudo sh install_salt.sh
 
 # specify it is local
-echo "file_client: local" >> /etc/salt/minion
+sudo sh -c "echo 'file_client: local' >> /etc/salt/minion"
 
 # install git
 sudo apt-get install -y git
