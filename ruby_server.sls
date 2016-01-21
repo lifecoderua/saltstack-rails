@@ -1,4 +1,4 @@
-user-deploy:
+deploy:
   group.present: []
   user.present:
     - gid: deploy
