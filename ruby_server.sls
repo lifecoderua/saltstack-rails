@@ -1,7 +1,7 @@
 fetch_keys:
   cmd.run:
     - name: gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-    - user: deploy
+    - user: {{ salt['pillar.get']('rails_data:user') }}
     - unless: gpg --list-keys | grep 4096R/D39DC0E3
 
 rvm-deps:
@@ -44,51 +44,26 @@ mri-deps:
       - ruby
     - refresh: True
 
-### exampleone ###
-
-ruby-2.2.2:
+### RVM setup ###
+{% for server in salt['pillar.get']('rails_data:servers') %}
+{{ server.ruby }}:
   rvm.installed:
-    - default: True
-    - user: deploy
+    - user: {{ salt['pillar.get']('rails_data:user') }}
     - require:
       - pkg: rvm-deps
       - pkg: mri-deps
-      - user: deploy
+      - user: {{ salt['pillar.get']('rails_data:user') }}
 
-exampleone:
+{{ server.gemset }}:
   rvm.gemset_present:
-    - ruby: ruby-2.2.2
-    - user: deploy
+    - ruby: {{ server.ruby }}
+    - user: {{ salt['pillar.get']('rails_data:user') }}
     - require:
-      - rvm: ruby-2.2.2
+      - rvm: {{ server.ruby }}
+{% endfor %}
+
 
 bundler-system:
   gem.installed:
     - name: bundler
-    - user: deploy
-
-### exampletwo ###
-
-ruby-2.0.0-p247:
-  rvm.installed:
-    - user: deploy
-    - require:
-      - pkg: rvm-deps
-      - pkg: mri-deps
-      - user: deploy
-
-exampletwo:
-  rvm.gemset_present:
-    - ruby: ruby-2.0.0-p247
-    - user: deploy
-    - require:
-      - rvm: ruby-2.0.0-p247
-
-### examplethree ###
-
-examplethree:
-  rvm.gemset_present:
-    - ruby: ruby-2.2.2
-    - user: deploy
-    - require:
-      - rvm: ruby-2.2.2
+    - user: {{ salt['pillar.get']('rails_data:user') }}
