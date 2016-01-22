@@ -3,9 +3,9 @@ mysql-server:
 
 MySQL user:
   mysql_user.present:
-    - name: deploy
+    - name: {{ salt['pillar.get']('rails_data:user') }}
     - host: localhost
-    - password: SomeCoolPassword
+    - password: {{ salt['pillar.get']('rails_data:mysql:password') }}
     - connection_charset: utf8
     - require:
       - pkg: mysql-server
@@ -15,26 +15,13 @@ ruby-mysql-deps:
     - pkgs:
       - libmysqlclient-dev
 
-db-exampleone:
-  mysql_database.present:
-    - name: exampleone
-  mysql_grants.present:
-    - grant: all privileges
-    - database: exampleone.*
-    - user: deploy
 
-db-exampletwo:
+{% for server in salt['pillar.get']('rails_data:servers') %}
+db-{{ server.db }}:
   mysql_database.present:
-    - name: exampletwo
+    - name: {{ server.db }}
   mysql_grants.present:
     - grant: all privileges
-    - database: exampletwo.*
-    - user: deploy
-
-db-examplethree:
-  mysql_database.present:
-    - name: examplethree
-  mysql_grants.present:
-    - grant: all privileges
-    - database: examplethree.*
-    - user: deploy
+    - database: {{ server.db }}.*
+    - user: {{ salt['pillar.get']('rails_data:user') }}
+{% endfor %}
