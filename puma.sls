@@ -14,6 +14,7 @@
 
 /etc/puma.conf:
   file.managed:
+    - template: jinja
     - source: salt://files/puma/etc/puma.conf
     - user: root
     - group: root
