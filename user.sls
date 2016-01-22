@@ -1,8 +1,8 @@
-deploy:
+{{ salt['pillar.get']('rails_data:user') }}:
   group.present: []
   user.present:
-    - gid: deploy
-    - home: /home/deploy
+    - gid: {{ salt['pillar.get']('rails_data:user') }}
+    - home: /home/{{ salt['pillar.get']('rails_data:user') }}
     - groups:
       - sudo
-      - deploy
+      - {{ salt['pillar.get']('rails_data:user') }}

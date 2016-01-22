@@ -29,6 +29,9 @@ sudo sh install_salt.sh
 # specify it is local
 sudo sh -c "echo 'file_client: local' >> /etc/salt/minion"
 
+# specify pillar root
+sudo sh -c "echo 'pillar_roots:\n  base:\n    - /srv/salt/pillar' >> /etc/salt/minion"
+
 # install git
 sudo apt-get install -y git
 

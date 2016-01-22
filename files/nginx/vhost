@@ -1,0 +1,25 @@
+upstream {{ appname }} {
+  server unix:///srv/www/{{ domain }}/current/tmp/sockets/puma.sock fail_timeout=0;
+}
+
+server {
+  server_name {{ domain }};
+  root /srv/www/{{ domain }}/current/public;
+
+  try_files $uri/index.html $uri @{{ appname }};
+
+  location @{{ appname }} {
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header Host $http_host;
+    proxy_redirect off;
+
+    proxy_pass http://{{ appname }};
+  }
+
+  error_page 500 504 /500.html;
+  error_page 502 /502.html;
+  error_page 503 /503.html;
+
+  client_max_body_size 4G;
+  keepalive_timeout 10;
+}
