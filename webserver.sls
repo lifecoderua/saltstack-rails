@@ -11,10 +11,14 @@ nginx:
 {% for server in salt['pillar.get']('rails_data:servers') %}
 /etc/nginx/sites-available/{{ server.name }}:
   file.managed:
-    - source: salt://files/nginx/{{ server.name }}
+    - template: jinja
+    - source: salt://files/nginx/vhost
     - user: root
     - group: root
     - mode: 640
+    - defaults:
+      domain: {{ server.domain }}
+      appname: {{ server.name }}_app
 
 /etc/nginx/sites-enabled/{{ server.name }}:
   file.symlink:
