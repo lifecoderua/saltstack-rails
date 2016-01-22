@@ -1,5 +1,4 @@
 ssh_key_access:
   ssh_auth.present:
-    - user: deploy
-    - source: salt://files/authorized_keys
-    - config: /home/deploy/.ssh/authorized_keys
+    - user: {{ salt['pillar.get']('rails_data:user') }}
+    - name: {{ salt['pillar.get']('rails_data:ssh_public_key') }}
