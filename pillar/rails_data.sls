@@ -2,7 +2,7 @@ rails_data:
   user: deploy
   mysql:
     password: SomeVeryStr0ngPa55worD
-  ssh_public_key: ssh-rsa PastYourPubKeyHereAndRecieveYourSshAccessToDeployUserWithoutSmsAndRegistration webowner@example.com  
+  ssh_public_key: PastYourPubKeyHereAndRecieveYourSshAccessToDeployUserWithoutSmsAndRegistration== webowner@example.com  
   servers:
     - exampleone:
       name: exampleone
