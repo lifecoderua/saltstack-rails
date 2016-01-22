@@ -1,5 +1,6 @@
 /etc/init/puma.conf:
   file.managed:
+    - template: jinja
     - source: salt://files/puma/etc/init/puma.conf
     - user: root
     - group: root
