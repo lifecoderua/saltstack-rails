@@ -46,16 +46,18 @@ mri-deps:
 
 ### RVM setup ###
 {% for server in salt['pillar.get']('rails_data:servers') %}
-{{ server.ruby }}:
+{{ "ruby-{0}-{1}".format(server.name, server.ruby) }}:
   rvm.installed:
+    - name: {{ server.ruby }}
     - user: {{ salt['pillar.get']('rails_data:user') }}
     - require:
       - pkg: rvm-deps
       - pkg: mri-deps
       - user: {{ salt['pillar.get']('rails_data:user') }}
 
-{{ server.gemset }}:
+{{ "gemset-{0}-{1}".format(server.name, server.gemset) }}:
   rvm.gemset_present:
+    - name: {{ server.gemset }}
     - ruby: {{ server.ruby }}
     - user: {{ salt['pillar.get']('rails_data:user') }}
     - require:

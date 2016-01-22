@@ -13,6 +13,6 @@ rails_data:
       domain: exampletwo.com
     - examplethree:
       name: examplethree
-      ruby: ruby-2.0.0-p247
+      ruby: ruby-2.2.1
       gemset: examplethree
       domain: examplethree.com
