@@ -46,4 +46,3 @@ Congratulations, you are bundled!
 
 ## ToDo:
 - provide Wiki with Puma config sample
-- use Pillar for clean configs
