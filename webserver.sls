@@ -4,56 +4,31 @@ nginx:
   service.running:
     - watch:
       - pkg: nginx
-      - file: /etc/nginx/sites-available/exampleone
+      {% for server in salt['pillar.get']('rails_data:servers') %}
+        - file: /etc/nginx/sites-available/{{ server.name }}
+      {% endfor %}
 
-/etc/nginx/sites-available/exampleone:
+{% for server in salt['pillar.get']('rails_data:servers') %}
+/etc/nginx/sites-available/{{ server.name }}:
   file.managed:
-    - source: salt://files/nginx/exampleone
+    - source: salt://files/nginx/{{ server.name }}
     - user: root
     - group: root
     - mode: 640
 
-/etc/nginx/sites-enabled/exampleone:
+/etc/nginx/sites-enabled/{{ server.name }}:
   file.symlink:
-    - target: /etc/nginx/sites-available/exampleone
+    - target: /etc/nginx/sites-available/{{ server.name }}
     - require:
-      - file: /etc/nginx/sites-available/exampleone
-
-
-/etc/nginx/sites-available/exampletwo:
-  file.managed:
-    - source: salt://files/nginx/exampletwo
-    - user: root
-    - group: root
-    - mode: 640
-
-/etc/nginx/sites-enabled/exampletwo:
-  file.symlink:
-    - target: /etc/nginx/sites-available/exampletwo
-    - require:
-      - file: /etc/nginx/sites-available/exampletwo
-
-
-
-/etc/nginx/sites-available/examplethree:
-  file.managed:
-    - source: salt://files/nginx/examplethree
-    - user: root
-    - group: root
-    - mode: 640
-
-/etc/nginx/sites-enabled/examplethree:
-  file.symlink:
-    - target: /etc/nginx/sites-available/examplethree
-    - require:
-      - file: /etc/nginx/sites-available/examplethree
+      - file: /etc/nginx/sites-available/{{ server.name }}
+{% endfor %}
 
 ### SRV
 
 /srv/www:
   file.directory:
-    - user: deploy
-    - group: deploy
+    - user: {{ salt['pillar.get']('rails_data:user') }}
+    - group: {{ salt['pillar.get']('rails_data:user') }}
     - mode: 755
     - makedirs: True
 
@@ -61,7 +36,7 @@ nginx:
 /srv/www/onewebstory.com/shared/config/secrets.yml:
   file.managed:
     - source: salt://files/srv/exampleone.secrets.yml
-    - user: deploy
-    - group: deploy
+    - user: {{ salt['pillar.get']('rails_data:user') }}
+    - group: {{ salt['pillar.get']('rails_data:user') }}
     - mode: 644
     - makedirs: True
