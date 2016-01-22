@@ -5,7 +5,7 @@ nginx:
     - watch:
       - pkg: nginx
       {% for server in salt['pillar.get']('rails_data:servers') %}
-        - file: /etc/nginx/sites-available/{{ server.name }}
+      - file: /etc/nginx/sites-available/{{ server.name }}
       {% endfor %}
 
 {% for server in salt['pillar.get']('rails_data:servers') %}
