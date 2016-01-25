@@ -58,7 +58,7 @@ nginx:
     - makedirs: True
 
 
-/srv/www/onewebstory.com/shared/config/secrets.yml:
+/srv/www/exampleone.com/shared/config/secrets.yml:
   file.managed:
     - source: salt://files/srv/exampleone.secrets.yml
     - user: deploy
